@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth import authenticate,login
 from django.core.context_processors import csrf
+from passlib.hash import pbkdf2_sha256
 from .forms import UserForm
 
 # Create your views here.
@@ -35,9 +36,9 @@ def UserFormView(request):
 			user=form.save(commit=False)
 			#normalized data
 			username=form.cleaned_data['username']
-			password=form.cleaned_data['password']
+			text_password=form.cleaned_data['password']
 			#not as plain data
-			user.set_password(password)
+			password=pbkdf2_sha256.encrypt(text_password,rounds=12000,salt_size=32)
 			user.save() #saved to database
 
 			user=auth.authenticate(username=username,password=password)
