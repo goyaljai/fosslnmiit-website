@@ -1,12 +1,13 @@
 from django.views.generic import View
 from django.utils import timezone
+from .models import UserProfile
 from django.shortcuts import render, get_object_or_404,render_to_response,redirect
 from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth import authenticate,login
 from django.core.context_processors import csrf
 from passlib.hash import pbkdf2_sha256
-from .forms import UserForm
+from .forms import UserForm, ProfileForm
 
 # Create your views here.
 
@@ -27,7 +28,7 @@ def UserFormView(request):
 		return render(request,template_name,{'form':form})
 
 
-		#validate by forms of django
+		#submission
 	if request.method=='POST':
 		form=form_class(request.POST)
 
@@ -36,9 +37,9 @@ def UserFormView(request):
 			user=form.save(commit=False)
 			#normalized data
 			username=form.cleaned_data['username']
-			text_password=form.cleaned_data['password']
+			password=form.cleaned_data['password']
 			#not as plain data
-			password=pbkdf2_sha256.encrypt(text_password,rounds=12000,salt_size=32)
+			user.set_password(password)
 			user.save() #saved to database
 
 			user=auth.authenticate(username=username,password=password)
@@ -49,6 +50,7 @@ def UserFormView(request):
 			return render(request,template_name,{'form':form})
 
 def auth_view(request):
+	firstname=request.POST.get('firstname','')
 	username=request.POST.get('username', '')
 	password=request.POST.get('password', '')
 	user=auth.authenticate(username=username,password=password)
@@ -58,6 +60,27 @@ def auth_view(request):
 		return HttpResponseRedirect('/profileuser')#url in brackets
 	else:
 		return HttpResponseRedirect('/invalid')
+
+def post_edit(request):
+	form_class=ProfileForm
+	template_name='fosssite/edituser.html'
+
+	if request.method=='GET':
+		form=form_class(None)
+		return render(request,template_name,{'form':form})
+
+	if request.method == "POST":
+		userprofile = get_object_or_404(UserProfile)
+		form = form_class(request.POST, instance=userprofile)
+
+		if form.is_valid():
+			userprofile = form.save(commit=False)
+			userprofile.username = request.username
+			userprofile.save()
+			return redirect('profileuser')
+		else:
+			form = ProfileForm(instance=userprofile)
+		return render(request, 'fosssite/profileuser.html', {'form': form})
 
 def profileuser(request):
 	#url = request.user.profile.url
