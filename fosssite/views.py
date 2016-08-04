@@ -60,7 +60,8 @@ def auth_view(request):
 		return HttpResponseRedirect('/invalid')
 
 def profileuser(request):
-	return render_to_response('fosssite/profileuser.html',{'fullname':request.user.username})
+	#url = request.user.profile.url
+	return render_to_response('fosssite/profileuser.html',{'username':request.user.username})
 
 def logout(request):
 	auth.logout(request)
@@ -71,3 +72,6 @@ def edit_user_profile(request):
 
 def invalid_login(request):
 	return render_to_response('fosssite/invalid_login.html')
+
+def view_profile(request):
+    url = request.user.profile.url
