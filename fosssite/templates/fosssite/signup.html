@@ -1,16 +1,30 @@
 {% extends 'fosssite/home.html' %}
 {% block profile %}
+<li><a href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 {% endblock %}
   {% block content %}
           <div id="wrapper">
              <div class="join">Join the FOSS Community</div>
                   <div class="clr"></div>
                                 <div class="forms">
+<<<<<<< HEAD
                                     <form action="" method="POST" name="register">{% csrf_token %}
                                       <input name="firstname" type="text" placeholder="First Name" size="40" onClick="border: 1px solid #30a8da;" id="firstname"/>
                                       <input name="lastname" type="text" placeholder="Last Name" size="40" onClick="border: 1px solid #30a8da;" id="lastname"/>
+=======
+                                    <form action="" method="POST" name="register" enctype="multipart/form-data">
+                                        {% csrf_token %}
+
+                                        <p class="text-danger">{{ form.first_name.errors.as_text  }}</p>
+                                      <input name="fname" type="text" placeholder="First Name" size="40" onClick="border: 1px solid #30a8da;" id="fname"/>
+                                      <p class="text-danger">{{ form.last_name.errors.as_text  }}</p>
+                                      <input name="lname" type="text" placeholder="Last Name" size="40" onClick="border: 1px solid #30a8da;" id="lname"/>
+                                      <p class="text-danger">{{ form.username.errors.as_text  }}</p>
+>>>>>>> 6c068a332a3c30eba70dad6fe128dd8ac985a811
                                       <input name="username" type="text" placeholder="Username" size="40" onClick="border: 1px solid #30a8da;" id="username"/>
+                                      <p class="text-danger">{{ form.email.errors.as_text  }}</p>
                                       <input name="email" type="text" placeholder="Email ID" size="40" onClick="border: 1px solid #30a8da;" id="mail"/>
+                                      <p class="text-danger">{{ form.password.errors.as_text  }}</p>
                                       <input name="password" type="password" placeholder="Password" size="40" onClick="border: 1px solid #30a8da;" id="password"/>
                                       <button type="submit" class="btn btn-default">Create My Account</button>
                                     </form>

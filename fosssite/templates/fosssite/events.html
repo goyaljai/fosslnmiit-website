@@ -1,0 +1,20 @@
+{% extends 'fosssite/home.html' %}
+{% load staticfiles %}
+
+{% block profile %}
+<li><a href="{% url 'fosssite:UserFormView' %}"><span class="glyphicon glyphicon-user"></span> Signup</a></li>
+<li><a href="{% url 'fosssite:login_user' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class='row'>
+  <div  style="margin-top: 150px;margin-left: 350px;">
+     <p>Please <a href="{% url 'fosssite:login_user' %}">Login</a> to access this page !</p>
+  </div>
+</div>
+
+
+{% endblock %}

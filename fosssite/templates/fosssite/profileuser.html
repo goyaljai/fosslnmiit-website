@@ -1,5 +1,8 @@
 {% extends 'fosssite/home.html' %}
 {% block profile %}
+<li><a href="{% url 'fosssite:profileuser' name=request.user %}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
+<li><a href="{% url 'fosssite:edit_user_profile' name=request.user %}"><span class="glyphicon glyphicon-edit"></span> Edit Profile</a></li>
+<li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 {% endblock %}
 {% block content %}
 
@@ -21,7 +24,11 @@
 	<div class='row'>
 				<div class='col-md-4'>
 					<div class='row'>
+					{% if userprofile.avatar %}
+				<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="{{ userprofile.avatar.url }}" width="200" />
+				{% else %}
 				<img alt="F340b72deeb79a210ec2138dea6e8561" class="img img-rounded" height="200" src="https://secure.gravatar.com/avatar/f340b72deeb79a210ec2138dea6e8561" width="200" />
+				{% endif %}
 				</div>
 				<div class='row'>
 				<ul class='nav navbar-nav'>
@@ -49,26 +56,30 @@
 				<table class='table table-bordered'>
 						<tr>
 							<th width='30%'>Name</th>
+<<<<<<< HEAD
 							<td>{{firstname}}</td>
 						</tr>
 						<tr>
 							<th>Handle</th>
 							<td>{{username}}</td>
+=======
+							<td>{{ user.first_name}} {{ user.last_name }}</td>
 						</tr>
 						<tr>
-							<th>Registered On</th>
-							<td>
-								May 20 2016
-							</td>
+							<th>Handle</th>
+							<td>{{ userprofile.handle }}</td>
+>>>>>>> 6c068a332a3c30eba70dad6fe128dd8ac985a811
 						</tr>
 						<tr>
-							<th colspan=2>About Me</th>
+							<th width='30%'>Email</th>
+							<td>{{user.email}}</td>
 						</tr>
 						<tr>
-							<td colspan=2>
-								<br/>
-							</td>
+							<th width='30%'>About Me</th>
+							<td>{{userprofile.about_me}}</td>
 						</tr>
+
+
 				</table>
 			</div>
 		</div>

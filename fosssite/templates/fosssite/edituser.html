@@ -1,10 +1,11 @@
 {% extends 'fosssite/home.html' %}
 
 {% block profile %}
+<li><a href="{% url 'fosssite:profileuser' name=request.user %}"><span class="glyphicon glyphicon-user"></span> Welcome {{ request.user }}</a></li>
+<li><a href="{% url 'fosssite:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 {% endblock %}
 
 {% block content %}
-
 <div id='main-content' class='container'>
    <div class='row'>
  <div class='col-md-12'>
@@ -12,84 +13,88 @@
      <h2>Edit User Profile</h2>
    </div>
    <div class='page-body'>
-     <form accept-charset="UTF-8" action="/users" class="form" enctype="multipart/form-data" id="edit_user" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /><input name="authenticity_token" type="hidden" value="KW/3tAwoPpmq/MzCtU1Eolw7K8jFlTE0QLduKwL8K8U=" /></div>
+     <form accept-charset="UTF-8" action="" class="form" enctype="multipart/form-data" id="edit_user" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /><input name="authenticity_token" type="hidden" value="KW/3tAwoPpmq/MzCtU1Eolw7K8jFlTE0QLduKwL8K8U=" /></div>
+         {% csrf_token %}
+
+
        <div class='row'>
          <div class='col-md-6'>
-           <div class='form-group'>
-             <label for="user_email">Email</label>
-             <input autofocus="autofocus" class="form-control" id="user_email" name="user[email]" size="30" type="email" value="atomsagar@gmail.com" />
-           </div>
-           <div class='form-group'>
-             <label for="user_name">Name</label>
-             <input class="form-control" id="user_name" name="user[name]" size="30" type="text" value="Sagar Chand Agarwal" />
-           </div>
-           <div class='form-group'>
-             <label for="user_handle">Handle</label>
-             <input class="form-control" id="user_handle" name="user[handle]" size="30" type="text" />
-           </div>
-           <div class='form-group'>
-             <label for="user_password">Password</label>
-             <input class="form-control" id="user_password" name="user[password]" size="30" type="password" />
-           </div>
-           <div class='form-group'>
-             <label for="user_password_confirmation">Password confirmation</label>
-             <input class="form-control" id="user_password_confirmation" name="user[password_confirmation]" size="30" type="password" />
-           </div>
-           <div class='form-group'>
-             <label for="user_current_password">Current password</label> <i>(we need your current password to confirm your changes)</i>
-             <input class="form-control" id="user_current_password" name="user[current_password]" size="30" type="password" />
-           </div>
-           <div class='form-group'>
-             <label for="user_avatar">Avatar</label>
-             <input id="user_avatar" name="user[avatar]" type="file" />
-           </div>
-         </div>
-         <div class='col-md-6'>
-           <div class='form-group'>
-             <div class='input-group'>
-               <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
-               <input class="form-control" id="user_twitter_handle" name="user[twitter_handle]" placeholder="http://www.twitter.com/example" size="30" type="text" />
+             <div class='form-group'>
+               <label for="user_email">Email</label>
+               <input autofocus="autofocus" class="form-control" id="user_email"{{ user_form.email }}
              </div>
              <br/>
-             <div class='input-group'>
-               <span class="input-group-addon"><i class="fa fa-facebook"></i></span>
-               <input class="form-control" id="user_facebook_profile" name="user[facebook_profile]" placeholder="http://www.facebook.com/example" size="30" type="text" />
+             <div class='form-group'>
+               <label for="user_name">First Name</label>
+               <input class="form-control" id="user_name" {{ user_form.first_name }}
              </div>
              <br/>
-             <div class='input-group'>
-               <span class="input-group-addon"><i class="fa fa-linkedin"></i></span>
-               <input class="form-control" id="user_linkedin_profile" name="user[linkedin_profile]" placeholder="http://www.linkedin.com/example" size="30" type="text" />
+             <div class='form-group'>
+               <label for="user_name">Last Name</label>
+               <input class="form-control" id="user_name" {{ user_form.last_name }}
              </div>
              <br/>
-             <div class='input-group'>
-               <span class="input-group-addon"><i class="fa fa-github"></i></span>
-               <input class="form-control" id="user_github_profile" name="user[github_profile]" placeholder="http://www.github.com/example" size="30" type="text" />
+             <div class='form-group'>
+               <label for="user_name">Password</label><br/><br/>
+               <a href="{% url 'fosssite:changepassword' name=request.user %}">
+               <button type="button" class="btn btn-primary">Change Password</button></a>
              </div>
              <br/>
-             <div class='input-group'>
-               <span class="input-group-addon"><i class="fa fa-home"></i></span>
-               <input class="form-control" id="user_homepage" name="user[homepage]" placeholder="http://www.example.com" size="30" type="text" />
+             {% if errors %}
+             <p class="text-danger">{{ errors }}</p>
+             {% endif %}
+             <div class='form-group'>
+               <label for="user_avatar">Avatar</label><br/><br/>
+               <input id="user_avatar" name="avatar" type="file" />
              </div>
-           </div>
-         </div>
-       </div>
-       <div class='row'>
-         <div class='col-md-12'>
-           <div class='form-group'>
-             <label for="user_about_me">About me</label>
-             <textarea class="form-control" cols="40" id="user_about_me" name="user[about_me]" rows="10">
 
-             </textarea>
-           </div>
-         </div>
-       </div>
+           <br/>
+             <div class='form-group'>
+               <label for="user_handle">Handle</label>
+               <input class="form-control" id="user_handle" {{ profile_form.handle }}
+             </div>
+             <br/>
+             <div class='form-group'>
+                 <label for="user_twitter_handle">Twitter</label>
+                 <input class="form-control" id="user_twitter_handle" placeholder="http://www.twitter.com/example" size="30" type="text"  {{ profile_form.twitterurl }}
+             </div>
+             <br/>
+            <div class='form-group'>
+                 <label for="user_facebook_profile">Facebook</label>
+                   <input class="form-control" id="user_facebook_profile" placeholder="http://www.facebook.com/example" size="30" type="text" {{ profile_form.facebookurl }}
+                 </div>
+                 <br/>
+                 <div class='form-group'>
+                     <label for="user_linkedin_profile">Linkedin</label>
+                   <input class="form-control" id="user_linkedin_profile" placeholder="http://www.linkedin.com/example" size="30" type="text" {{ profile_form.lnkdnurl }}
+                 </div>
+                 <br/>
+                 <div class='form-group'>
+                  <label for="user_github_profile">Github</label>
+                   <input class="form-control" id="user_github_profile" placeholder="http://www.github.com/example" size="30" type="text" {{ profile_form.githuburl }}
+                 </div>
+                 <br/>
+                  <div class='form-group'>
+                    <label for="user_homepage">Personal</label>
+                   <input class="form-control" id="user_homepage" placeholder="http://www.example.com" size="30" type="text" {{ profile_form.example }}
+                 </div>
 
-       <div class='form-group'>
-         <input class="btn btn-primary btn-lg" name="commit" type="submit" value="Update" />
-       </div>
-     </form>
-    </div>
+             <div class='form-group'>
+               <label for="user_about_me">About me </label>
+               <textarea class="form-control"  id="user_about_me" {{ profile_form.about_me }}</textarea>
+                   <br/>
+                    (Max. 100 characters)
+             </div>
+
+         <div class='form-group'>
+           <input class="btn btn-primary btn-lg" name="commit" type="submit" value="Update" />
+         </div>
+     </div>
  </div>
-</div>
 
-{% endblock %}
+       </form>
+      </div>
+   </div>
+  </div>
+
+  {% endblock %}

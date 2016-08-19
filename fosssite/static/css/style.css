@@ -7,8 +7,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -19,7 +19,7 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
@@ -42,6 +42,21 @@ table {
 	border-spacing: 0;
 }
 
+* {
+    margin: 0;
+}
+html, body {
+    height: 100%;
+}
+.experiment {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -155px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+    height: 155px; /* .push must be the same height as .footer */
+}
 /* Reset End */
 .clr { clear: both;}
 body {
@@ -243,9 +258,9 @@ body {
 }
 .forms input:focus {
     box-shadow: 0 0 5px rgba(48, 168, 218, 1);
-    -webkit-box-shadow: 0 0 5px rgba(48, 168, 218, 1); 
+    -webkit-box-shadow: 0 0 5px rgba(48, 168, 218, 1);
     -moz-box-shadow: 0 0 5px rgba(48, 168, 218, 1);
-    border:1px solid rgba(48, 168, 218, 1) !important; 
+    border:1px solid rgba(48, 168, 218, 1) !important;
 }
 .forms #username {
 	background:url("http://i.imgur.com/n6engUt.png") no-repeat left center;
@@ -312,14 +327,4 @@ body {
 	-o-border-radius: 0px 8px 8px 0px;
 	-ms-border-radius: 0px 8px 8px 0px;
 	border-radius: 0px 8px 8px 0px;
-}
-.footer {
-  width: 610px;
-  margin: 0 auto;
-  color: #fff;
-  margin-top: -40px
-}
-.footer a {
-  color: #fff;
-  text-decoration: underline;
 }
