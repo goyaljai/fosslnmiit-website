@@ -4,96 +4,14 @@ from .models import UserProfile
 from django.shortcuts import render, get_object_or_404,render_to_response,redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import auth
-<<<<<<< HEAD
-from django.contrib.auth import authenticate,login
-from django.core.context_processors import csrf
-from passlib.hash import pbkdf2_sha256
-from .forms import UserForm, ProfileForm
-
-# Create your views here.
-=======
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm, UserProfileForm, UserEditForm
 from .models import UserProfile, User
->>>>>>> 6c068a332a3c30eba70dad6fe128dd8ac985a811
 
 def home(request):
 	return render(request, 'fosssite/home.html')
 
-<<<<<<< HEAD
-def login(request):
-	c={}
-	c.update(csrf(request))
-	return render_to_response('fosssite/login.html',c)
-
-def UserFormView(request):
-	form_class=UserForm
-	template_name='fosssite/signup.html'
-
-	if request.method=='GET':
-		form=form_class(None)
-		return render(request,template_name,{'form':form})
-
-
-		#submission
-	if request.method=='POST':
-		form=form_class(request.POST)
-
-		if form.is_valid():
-			# not saving to database only creating object
-			user=form.save(commit=False)
-			#normalized data
-			username=form.cleaned_data['username']
-			password=form.cleaned_data['password']
-			#not as plain data
-			user.set_password(password)
-			user.save() #saved to database
-
-			user=auth.authenticate(username=username,password=password)
-			if user is not None:
-				auth.login(request,user)
-				return HttpResponseRedirect('/')#url in brackets
-
-			return render(request,template_name,{'form':form})
-
-def auth_view(request):
-	firstname=request.POST.get('firstname','')
-	username=request.POST.get('username', '')
-	password=request.POST.get('password', '')
-	user=auth.authenticate(username=username,password=password)
-
-	if user is not None:
-		auth.login(request,user)
-		return HttpResponseRedirect('/profileuser')#url in brackets
-	else:
-		return HttpResponseRedirect('/invalid')
-
-def post_edit(request):
-	form_class=ProfileForm
-	template_name='fosssite/edituser.html'
-
-	if request.method=='GET':
-		form=form_class(None)
-		return render(request,template_name,{'form':form})
-
-	if request.method == "POST":
-		userprofile = get_object_or_404(UserProfile)
-		form = form_class(request.POST, instance=userprofile)
-
-		if form.is_valid():
-			userprofile = form.save(commit=False)
-			userprofile.username = request.username
-			userprofile.save()
-			return redirect('profileuser')
-		else:
-			form = ProfileForm(instance=userprofile)
-		return render(request, 'fosssite/profileuser.html', {'form': form})
-
-def profileuser(request):
-	#url = request.user.profile.url
-	return render_to_response('fosssite/profileuser.html',{'username':request.user.username})
-=======
 def login_user(request):
 	if request.method == 'POST':
 		username = request.POST.get('username')
@@ -105,8 +23,6 @@ def login_user(request):
 		else:
 			return render(request, 'fosssite/login.html', {'error_message': 'Invalid login'})
 	return render(request,'fosssite/login.html')
-
->>>>>>> 6c068a332a3c30eba70dad6fe128dd8ac985a811
 
 def UserFormView(request):
 	form=UserForm(request.POST or None)
@@ -165,13 +81,6 @@ def edit_user_profile(request, name):
 		user_form = UserEditForm(instance=request.user)
 	return  render(request,'fosssite/edituser.html',{'profile_form':profile_form, 'user_form':user_form})
 
-<<<<<<< HEAD
-def invalid_login(request):
-	return render_to_response('fosssite/invalid_login.html')
-
-def view_profile(request):
-    url = request.user.profile.url
-=======
 @login_required
 def changepassword(request, name):
 	if request.method=='POST':
@@ -212,4 +121,3 @@ def blog(request):
 	if request.user.is_authenticated():
 		return render(request,'fosssite/working.html',{})
 	return render(request, 'fosssite/blog.html')
->>>>>>> 6c068a332a3c30eba70dad6fe128dd8ac985a811
