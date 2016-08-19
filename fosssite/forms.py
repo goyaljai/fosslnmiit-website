@@ -9,7 +9,6 @@ class UserForm(forms.ModelForm):
 
 	class Meta:
 		model=User
-<<<<<<< HEAD
 		fields=['username','email','password']
 
 class ProfileForm(forms.ModelForm):
@@ -17,8 +16,7 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('firstname', 'lastname','password')
-=======
-		fields=['username','email','first_name','last_name','password']
+
 
 class UserProfileForm(forms.ModelForm):
 
@@ -34,4 +32,4 @@ class UserEditForm(forms.ModelForm):
 	class Meta:
 		model = User
 		fields = ['email','first_name','last_name']
->>>>>>> 6c068a332a3c30eba70dad6fe128dd8ac985a811
+
